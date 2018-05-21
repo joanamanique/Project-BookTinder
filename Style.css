@@ -1,0 +1,80 @@
+h1 {
+    coloR: black;
+    font-size: 62px;
+    text-align: center;
+    font-weight: bold;
+    font-family: Calibri;
+}
+h3 {
+    color:darkslategrey;
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-family: Calibri;
+}
+img {
+    width: 350px;
+    height: 500px;
+    display: block;
+    margin: auto;
+}
+p{
+    color: black;
+    font-size: 25px;
+    text-align: justify;
+    font-weight: normal;
+    font-family: Calibri;
+}
+button{
+    width: 80px;
+    height: 58px;
+    font-size: 16px;
+    font-family: Calibri;
+    text-align: center;
+    font-weight: bold;
+    border-radius: black;
+}
+.buttonlike{
+    background: green;
+    color:whitesmoke;
+}
+.buttondislike{
+    background: red;
+    color: whitesmoke;
+}
+body{
+    background-color: white;
+}
+a{
+    color: black;
+    text-decoration: underline;
+}
+
+
+
+
+
+/*para fazer exercicio 1 - 11 maio, adicionar classe book a todas as divs e depois personalizar aqui no css */
+
+/*comentado para o exercicio do dia 17 maio que pedia para apagar esta parte*/
+
+/* .book{
+    display: none;
+}
+
+.book.active{
+    display: block;
+} */
+
+
+
+
+
+
+
+/*para adicionar coisas depois de todas as divs ou antes (before em vez de after)*/
+
+/* .book::after{
+    content:'abc';
+} */
+
