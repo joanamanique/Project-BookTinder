@@ -50,8 +50,17 @@ a{
     text-decoration: underline;
 }
 
+#bookContainer{
+    display: none;
+}
+  
+#endPage{  /*para estar invisivel ate a chamarmos no javascript*/
+    display: none;
+}   
 
-
+#startPage{
+    display: block;
+}
 
 
 /*para fazer exercicio 1 - 11 maio, adicionar classe book a todas as divs e depois personalizar aqui no css */
@@ -65,9 +74,6 @@ a{
 .book.active{
     display: block;
 } */
-
-
-
 
 
 

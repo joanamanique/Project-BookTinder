@@ -9,7 +9,11 @@
 
     <body>
         <div class="container-fluid"> <!--fluid usa todo o ecra, se for sem fluid usa só a parte central do ecra-->
-            <div id="bookcontainer" class="row">
+            <div id="startPage">
+                <input type=text id="searchbox" class="display"></textarea>
+                <button class="search">SEARCH</button>
+            </div>
+            <div id="bookContainer" class="row">
                 <div class="col-4 book mx-auto">   <!--cm se poe classes no bootstrap e cm se centra a div so c o livro 1--> 
                     <h1></h1>                             <!--mx auto para centrar div-->     
                     <h3></h3>
@@ -56,7 +60,21 @@
                     <a href="https://www.wook.pt/livro/the-hunger-games-suzanne-collins/11522416">Wook</a>
                 </div>  -->
             </div>
-            <div id="endpage" ></div>
+            <div id="endPage">
+                <table id="display">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>    <!-- thead (cabecalho) e tbody (corpo com linhas e colunas (th e td) -->
+                            <th>Opinião</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <br>
+                <button class="reset">RESET</button>
+                <button class="newsearch">NEW SEARCH</button>
+                <br>
+            </div>
         </div>
 
         <script src="jquery-3.3.1.js"></script> <!--acrescentamos isto dentro do body para usar jquery-->

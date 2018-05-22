@@ -107,10 +107,26 @@ class library{
         // });
     }
 
-    NextBook(){
-        this.seenBooks.push(this.books[0]);
-        this.books.splice(0,1);
-        this.Load(this.books[0]);
+    NextBook(opinion){
+            this.books[0].opinion = opinion;
+            this.seenBooks.push(this.books[0]);
+            this.books.splice(0,1);
+            if(this.books.length > 0){ 
+            this.Load(this.books[0]);
+        } else{
+            $('#bookContainer').toggle(); //para desaparecer esta div
+            $('#endPage').toggle(); //para aparecer esta div
+            
+            var html = "";
+            this.seenBooks.forEach(function(v,i){
+                html += `
+                    <tr>
+                        <td>` + v.title + `</td>
+                        <td>` + v.opinion + `</td>
+                    </tr>`;
+            });
+            $('#display tbody').html(html);
+        }
     }
 
     GetBooks(search){
@@ -118,7 +134,7 @@ class library{
         $.ajax({
             url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
         }).done(function(data){
-             //quando o pedido ajax terminar com sucesso
+            //quando o pedido ajax terminar com sucesso
             //console.log(data);
             data.items.forEach(function(v,i){
                 var book = {
@@ -134,7 +150,22 @@ class library{
             
             obj.Load(obj.books[0]);
         });
+    }
 
+    Reset(){
+        this.books = this.seenBooks;
+        this.seenBooks = [];
+        this.Load(this.books[0]);
+        $('#bookContainer').toggle();
+        $('#endPage').toggle();
+    }
+
+    Start(){
+        $('#searchbox').val();
+        // this.GetBooks()
+        $('#startPage').toggle();
+        $('#bookContainer').toggle();
+        
     }
 }
 
@@ -144,4 +175,12 @@ var lib = new library();  //ativar a classe library, só assim vai funcionar
  $('.book button').click(function(){
             var opinion = $(this).attr("data-opinion");
             lib.NextBook(opinion);
- });
+});
+
+$('.reset').click(function(){
+    lib.Reset();
+});
+
+$('.search').click(function(){
+    lib.Start();
+});
