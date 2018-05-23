@@ -62,6 +62,9 @@ a{
     display: block;
 }
 
+.tituloinicial{
+    text-align: left;
+}
 
 /*para fazer exercicio 1 - 11 maio, adicionar classe book a todas as divs e depois personalizar aqui no css */
 

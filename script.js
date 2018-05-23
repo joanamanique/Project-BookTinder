@@ -88,14 +88,14 @@ vão ao css e removem o css referente à visualização dos livros(display)*/
 
 //Exercicios - 18 Maio - inserir divs de novo através de jquery atraves do load book + fazer os livros passar de uns para outros atrves de nextbook
 
-class library{                                     //classe em js
-    constructor(){                                 //método em js
+class library {                                     //classe em js
+    constructor() {                                 //método em js
         this.books = [];
-        this.seenBooks = [];
-        //this.GetBooks(search); ??
-        // this.GetBooks("harry potter");  para a pesquisa ser feita para qq livro e palavra 
+        this.seenBooks = [];  
+        this.maislivros=0;           //construtor corre independentemente de tudo
+        // this.GetBooks("harry potter");  comentar para a pesquisa ser feita para qq livro e palavra 
     }
-    Load(book){
+    Load(book) {
         $('.book h1').text(book.title);     //jQuery já tem as funções js implementadas
         $('.book h3').text(book.authors);
         $('.book img').attr("src", book.img);
@@ -108,18 +108,19 @@ class library{                                     //classe em js
         // });
     }
 
-    NextBook(opinion){
-            this.books[0].opinion = opinion;
-            this.seenBooks.push(this.books[0]);   //push anexa novos elementos no fim a um array
-            this.books.splice(0,1);     //splice(index onde começa a mudar, nº de elementos q queremos remover)
-            if(this.books.length > 0){ 
+    NextBook(opinion) {
+        this.books[0].opinion = opinion;
+        this.seenBooks.push(this.books[0]);   //push anexa novos elementos no fim a um array
+        this.books.splice(0, 1);     //splice(index onde começa a mudar, nº de elementos q queremos remover)
+        if (this.books.length > 0) {
             this.Load(this.books[0]);
-        } else{
+        }
+        else {
             $('#bookContainer').toggle(); //para desaparecer esta div
             $('#endPage').toggle();       //para aparecer esta div
-            
+
             var linhatabela = "";
-            this.seenBooks.forEach(function(v,i){
+            this.seenBooks.forEach(function (v, i) {
                 //coluna 1 - titulo, coluna 2-opinion
                 //para cada elemento em seenbooks acrescenta uma linha
                 linhatabela += `
@@ -134,66 +135,109 @@ class library{                                     //classe em js
         }
     }
 
-    GetBooks(search){
+    GetBooks(search) {
         var obj = this;
-        $.ajax({   //library js para comunicar c paginas web
-            url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
-        }).done(function(data){
-            //quando o pedido ajax terminar com sucesso
-            //console.log(data);
-            data.items.forEach(function(v,i){
-                var book = {
-                    title: v.volumeInfo.title,
-                    authors: v.volumeInfo.authors,
-                    description: v.volumeInfo.description,
-                    img: v.volumeInfo.imageLinks.thumbnail,
-                    opinion: "",
-                    link: v.volumeInfo.previewLink,
-                }
-                obj.books.push(book);
+        if (this.seenBooks.length == 0) {
+            $.ajax({   //library js para comunicar c paginas web
+                url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
+            }).done(function (data) {
+                //quando o pedido ajax terminar com sucesso
+                //console.log(data);
+                data.items.forEach(function (v, i) {
+                    var book = {
+                        title: v.volumeInfo.title,
+                        authors: v.volumeInfo.authors,
+                        description: v.volumeInfo.description,
+                        img: v.volumeInfo.imageLinks.thumbnail,
+                        opinion: "",
+                        link: v.volumeInfo.previewLink,
+                    }
+                    obj.books.push(book);
+                });
+
+                obj.Load(obj.books[0]);
+                obj.maislivros += 10;
+               
             });
-            
-            obj.Load(obj.books[0]);
-        });
+        }
+
+        else {    //ha uma forma mais facil de fazer no trello
+            $.ajax({
+                url: "https://www.googleapis.com/books/v1/volumes?q=" + search + "&startIndex=" + this.maislivros,
+            }).done(function (data) {
+                data.items.forEach(function (v, i) {
+                    var book = {
+                        title: v.volumeInfo.title,
+                        authors: v.volumeInfo.authors,
+                        description: v.volumeInfo.description,
+                        img: v.volumeInfo.imageLinks.thumbnail,
+                        opinion: "",
+                        link: v.volumeInfo.previewLink,
+                    }
+                    obj.books.push(book);
+                });
+
+                obj.Load(obj.books[0]);
+
+                obj.maislivros += 10;
+            });
+        }
     }
 
-    Reset(){                             //voltar para o primeiro livro ALTERAR!
+    Reset() {
         this.books = this.seenBooks;
         this.seenBooks = [];
         this.Load(this.books[0]);
-        $('#startPage').toggle();  // botão reset a voltar para 1º pagina (search)
-        // $('#bookContainer').toggle();  botão reset a voltar para 1º livro
+        $('#bookContainer').toggle();  //botão reset a voltar para 1º livro
         $('#endPage').toggle();
     }
 
-    Start(){
-        var pesquisa = $('#searchbox').val(); //função usada para obter valores de um input ou textarea (criada no html)
-        this.GetBooks(pesquisa);
-
-        if(pesquisa.length > 0){   // length????????      
+    Start() {
+        var pesquisa = $('#searchbox').val(); //função usada para obter valores de um input ou textarea (html)
+        if (pesquisa.length >= 2) {
             this.GetBooks(pesquisa);
-        }else{
-            $('#startPage').html();
         }
 
-        $('#startPage').toggle();
+        $('#startPage').toggle();    
         $('#bookContainer').toggle();
-        
+    
+    }
+
+    Newsearch() {
+        $('#startPage').toggle();  //botão a voltar para 1º pagina
+        $('#endPage').toggle();
+        this.maislivros=0;
     }
 }
+
 
 var lib = new library();  //ativar a classe library, só assim vai funcionar
 
 
- $('.book button').click(function(){
-            var opinion = $(this).attr("data-opinion");
-            lib.NextBook(opinion);
+$('.book button').click(function () {
+    var opinion = $(this).attr("data-opinion");
+    lib.NextBook(opinion);
 });
 
-$('.reset').click(function(){
+$('.reset').click(function () {
     lib.Reset();
 });
 
-$('.search').click(function(){
+$('.search').click(function () {
     lib.Start();
+});
+
+$('.newsearch').click(function () {
+    lib.Newsearch();
+});
+
+$('.readmore').click(function () {
+    lib.GetBooks($('#searchbox').val()); 
+    $('#bookContainer').toggle();
+    $('#endPage').toggle();
+});
+
+
+$('#searchbox').keyup(function(){
+    setTimeout(lib.GetBooks(), 2000);
 });
