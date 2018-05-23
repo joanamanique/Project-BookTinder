@@ -88,14 +88,15 @@ vão ao css e removem o css referente à visualização dos livros(display)*/
 
 //Exercicios - 18 Maio - inserir divs de novo através de jquery atraves do load book + fazer os livros passar de uns para outros atrves de nextbook
 
-class library{
-    constructor(){
+class library{                                     //classe em js
+    constructor(){                                 //método em js
         this.books = [];
         this.seenBooks = [];
-        this.GetBooks("harry potter");
+        //this.GetBooks(search); ??
+        // this.GetBooks("harry potter");  para a pesquisa ser feita para qq livro e palavra 
     }
     Load(book){
-        $('.book h1').text(book.title);
+        $('.book h1').text(book.title);     //jQuery já tem as funções js implementadas
         $('.book h3').text(book.authors);
         $('.book img').attr("src", book.img);
         $('.book p').text(book.description);
@@ -109,29 +110,33 @@ class library{
 
     NextBook(opinion){
             this.books[0].opinion = opinion;
-            this.seenBooks.push(this.books[0]);
-            this.books.splice(0,1);
+            this.seenBooks.push(this.books[0]);   //push anexa novos elementos no fim a um array
+            this.books.splice(0,1);     //splice(index onde começa a mudar, nº de elementos q queremos remover)
             if(this.books.length > 0){ 
             this.Load(this.books[0]);
         } else{
             $('#bookContainer').toggle(); //para desaparecer esta div
-            $('#endPage').toggle(); //para aparecer esta div
+            $('#endPage').toggle();       //para aparecer esta div
             
-            var html = "";
+            var linhatabela = "";
             this.seenBooks.forEach(function(v,i){
-                html += `
+                //coluna 1 - titulo, coluna 2-opinion
+                //para cada elemento em seenbooks acrescenta uma linha
+                linhatabela += `
                     <tr>
                         <td>` + v.title + `</td>
+                        <td>` + v.authors + `</td>    
                         <td>` + v.opinion + `</td>
+                        
                     </tr>`;
             });
-            $('#display tbody').html(html);
+            $('#display tbody').html(linhatabela);  //html método em jquery para definir um conteudo linhatabela em display tbodys
         }
     }
 
     GetBooks(search){
         var obj = this;
-        $.ajax({
+        $.ajax({   //library js para comunicar c paginas web
             url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
         }).done(function(data){
             //quando o pedido ajax terminar com sucesso
@@ -152,11 +157,12 @@ class library{
         });
     }
 
-    Reset(){
+    Reset(){                             //voltar para o primeiro livro ALTERAR!
         this.books = this.seenBooks;
         this.seenBooks = [];
         this.Load(this.books[0]);
-        $('#bookContainer').toggle();
+        $('#startPage').toggle();  // botão reset a voltar para 1º pagina (search)
+        // $('#bookContainer').toggle();  botão reset a voltar para 1º livro
         $('#endPage').toggle();
     }
 
