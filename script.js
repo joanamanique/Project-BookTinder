@@ -161,8 +161,15 @@ class library{
     }
 
     Start(){
-        $('#searchbox').val();
-        // this.GetBooks()
+        var pesquisa = $('#searchbox').val(); //função usada para obter valores de um input ou textarea (criada no html)
+        this.GetBooks(pesquisa);
+
+        if(pesquisa.length > 0){   // length????????      
+            this.GetBooks(pesquisa);
+        }else{
+            $('#startPage').html();
+        }
+
         $('#startPage').toggle();
         $('#bookContainer').toggle();
         
