@@ -197,10 +197,9 @@ class library {                                     //classe em js
         if (pesquisa.length >= 2) {
             this.GetBooks(pesquisa);
         }
-
+    
         $('#startPage').toggle();    
         $('#bookContainer').toggle();
-    
     }
 
     Newsearch() {
@@ -237,7 +236,7 @@ $('.readmore').click(function () {
     $('#endPage').toggle();
 });
 
-
-$('#searchbox').keyup(function(){
-    setTimeout(lib.GetBooks(), 2000);
+$('#searchbox').keyup(function(){        //não é um botão
+    setTimeout(function(){lib.Start()}, 2000);
 });
+
