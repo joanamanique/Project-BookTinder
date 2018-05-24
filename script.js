@@ -236,7 +236,15 @@ $('.readmore').click(function () {
     $('#endPage').toggle();
 });
 
-$('#searchbox').keyup(function(){        //não é um botão
-    setTimeout(function(){lib.Start()}, 2000);
-});
 
+
+var timer;
+$('#searchbox').keyup(function(){  
+    clearTimeout(timer);
+    if($('#searchbox').val().length>2){
+        timer = setTimeout(function(){
+            lib.Start();
+            
+        }, 2000);
+    }
+});
