@@ -1,29 +1,4 @@
 
-
-
-//para fazer exercicio 2 - 11 maio 
-
-// $('.book button').click(function(){
-//     var opinion = $(this).attr("data-opinion");
-//     console.log("book" + opinion);
-//     $current = $('.book.active');
-//     $next = $current.next();
-
-
-// //exercicio extra - 12 maio (para depois do ultimo livro ele voltar ao primeiro)
-
-//     if($next.length == 0){
-//         // $next= $('.book:first-of-type'); outra forma de fazer
-//         $next=$('.book').first();
-
-// }
-
-//     $current.removeClass("active");
-//     $next.addClass("active");
-// });
-
-
-
 //exercicio - 17 maio
 
 /*criar class Library
@@ -203,8 +178,9 @@ class library {                                     //classe em js
     }
 
     Newsearch() {
-        $('#startPage').toggle();  //botão a voltar para 1º pagina
         $('#endPage').toggle();
+        $('#startPage').toggle();  //botão a voltar para 1º pagina
+        $('#searchbox').val(""); 
         this.maislivros=0;
     }
 }
